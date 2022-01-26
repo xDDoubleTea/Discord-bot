@@ -16,8 +16,9 @@ from discord.utils import get
 
 queue = []
 nowplaying = 0
-
-
+vc = 905825652823957514
+new_vc = []
+in_vc = []
 
 youtube_dl.utils.bug_reports_message = lambda: ''
 
@@ -69,9 +70,27 @@ class music(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-
-
-    '''@MusicManager.event
+    @commands.Cog.listener()
+    async def on_voice_state_update(self, member, before, after):
+        if after.channel == None and not(member.bot):
+            i = 0
+            for x in in_vc:
+                if x == member.name:
+                    break
+                i+=1
+            await new_vc[i].delete(reason = None)
+            new_vc.pop(i)
+            in_vc.pop(i)
+        elif(after.channel.id == 905825652823957514 or after.channel.id == 906729569996902420) and not member.bot:
+            new_vc.append(await after.channel.clone(name = f'[{len(new_vc)+1}]{member.name}\'s small room', reason = None))
+            in_vc.append(member.name)
+            await member.move_to(channel = new_vc[len(new_vc)-1], reason = None)
+        
+    @commands.command()
+    async def ctxtest(self ,ctx):
+        print(ctx)
+'''
+    @MusicManager.event
     async def on_play(self, ctx, player):
         await ctx.send(f"Now playing: {player.title}")
         

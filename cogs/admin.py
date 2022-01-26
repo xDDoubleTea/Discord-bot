@@ -25,25 +25,6 @@ class admin(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(administrator = True)
-    async def load(self, ctx, extension):
-        self.client.load_extension(f'cogs.{extension}')
-        await ctx.send(f'{extension} was loaded successfully!')
-
-    @commands.command()
-    @commands.has_permissions(administrator = True)
-    async def unload(self, ctx, extension):
-        self.client.unload_extension(f'cogs.{extension}')
-        await ctx.send(f'{extension} was unloaded successfully!')
-
-    @commands.command()
-    @commands.has_permissions(administrator = True)
-    async def reload(self, ctx, extension):
-        self.client.unload_extension(f'cogs.{extension}')
-        self.client.load_extension(f'cogs.{extension}')
-        await ctx.send(f'{extension} was reloaded successfully!')
-
-    @commands.command()
-    @commands.has_permissions(administrator = True)
     async def mute(self, ctx, member:discord.Member):
         await member.add_roles(member.guild.get_role(873154403060809768))
         await ctx.channel.purge(limit = 1)
@@ -80,21 +61,6 @@ class admin(commands.Cog):
 
     @ban.error
     async def ban_error(self, ctx, error):
-        if isinstance(error, commands.MissingPermissions):
-            await ctx.send(f'{ctx.author} has no access to this command')
-
-    @load.error
-    async def load_error(self, ctx, error):
-        if isinstance(error, commands.MissingPermissions):
-            await ctx.send(f'{ctx.author} has no access to this command')
-
-    @unload.error
-    async def unload_error(self, ctx, error):
-        if isinstance(error, commands.MissingPermissions):
-            await ctx.send(f'{ctx.author} has no access to this command')
-
-    @reload.error
-    async def reload_error(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
             await ctx.send(f'{ctx.author} has no access to this command')
 

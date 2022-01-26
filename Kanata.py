@@ -1,28 +1,33 @@
 import discord
 from discord import channel
+from discord import colour
 from discord.colour import Color
 from discord.voice_client import VoiceClient
 from discord.ext import commands, tasks
 from discord.utils import get
 from itertools import cycle
-from discordSuperUtils import Music
+from discordSuperUtils import MusicManager
 import youtube_dl
 import random
 import math
 import os
 import discordSuperUtils
+from pytube.__main__ import YouTube
 from discordSuperUtils import MusicManager
 import asyncio
 import json
+import emoji
 import pytube
-#import time
+import time
+from datetime import date
 
 Me = 398444155132575756
 Member = 489568072483471372
 
 Pi = math.pi
 
-
+client_id = 865465022264377376
+client_secret = 'QWC5PDZyxNgWoE_A0p-DsLgRbqqNh-sf'
 version = 1.0
 
 
@@ -80,8 +85,9 @@ def get_prefix(client , message):
 
 
 pre = 'a!'
-#intents = discord.Intents(messages = True, guilds = True, reactions = True, members = True, presences = True)
-client = commands.Bot(command_prefix = pre) #, help_command=None
+intents = discord.Intents.default()
+intents.members = True 
+client = commands.Bot(command_prefix = pre, help_command=None) 
 #client.remove_command('help')
 MusicManager = MusicManager(client, client_id=client_id, client_secret=client_secret)
 
@@ -93,10 +99,16 @@ status = cycle([f'{pre}h' , 'かわいいかなたそ!!'])
 queue = []
 queue_url = []
 queueadd = []
+queue_source = []
+queue_image_url = []
 nowplaying = 0
+help_message = 0
+playmessages = 0
+queuemessages = 0
 loop_state = False
-joined = False
-default_footer = "Bot Developed by Hoshiyomi#6942"
+voice_joined = False
+MyDiscordID = "星詠み#6942"
+default_footer = f"Developed by {MyDiscordID} version:{version}"
 default_footer_icon = "https://cdn.discordapp.com/avatars/398444155132575756/77db70f07858b08a72896f248e2ffcaf.webp?size=4096"
 
 
@@ -107,7 +119,7 @@ default_footer_icon = "https://cdn.discordapp.com/avatars/398444155132575756/77d
 
 @tasks.loop(seconds = 30)
 async def change_status():
-    await client.change_presence(status = discord.Status.dnd, activity = discord.Game(next(status)))
+    await client.change_presence(status = discord.Status.online, activity = discord.Game(next(status)))
 
 '''
 Events
@@ -142,25 +154,28 @@ async def on_guild_remove(guild):
 
 @client.event
 async def on_member_join(member):
-    joined_guild = member.guild
-    channel = joined_guild.get_channel(489439897267077131)
-    await channel.send(f'Welcome to {joined_guild.name}!!')
+    channel = discord.utils.get(member.guild.channels, name='機器人刷頻區')
+    embed = discord.Embed(
+        title = "Welcome to our server!",
+        description = f"{member.mention}"
+    )
+    embed.add_field(name = "Looking for help?", value = "Type a!h to see list of commands!", inLine = False)
+    embed.set_footer(text = default_footer, icon_url = default_footer_icon)
+    await channel.send(embed = embed)
 
 
 @client.event
 async def on_message(message):
+    global help_message
     ctx = message.content
     if message.author == client.user:
         return 
 
 
     elif ctx.startswith('Hello!!'):
-            await message.channel.send('Hello!!')
-        
-    elif ctx.startswith('hi'):
-        await message.channel.send('Hi!!')
+        await message.channel.send('Hello!!')
 
-    elif ctx.startswith('.'):
+    elif ctx.startswith('.') and ctx.endswith("."):
         await message.channel.send('不要句點我啦QQ')
 
     elif ctx.startswith('Your chest is small'):
@@ -171,9 +186,29 @@ async def on_message(message):
         responses = ["I'm glad that you're happy!" , "yay!!!", 'Yay!!!', "I'm happy too!!" ]
         await message.channel.send(random.choice(responses))
     
-        #elif message.content.startswith(''):
-            
-
+    elif message.content.startswith('kanata') or message.content.startswith("kanatan"):
+        t = time.localtime()
+        today = date.today()
+        today_date = today.strftime("%Y/%m/%d")
+        current_time = time.strftime("%H:%M:%S", t)
+        embed = discord.Embed(
+            title = f"Hi! \nAmane kanata desu! \nIs there anything I can help?",
+            description = "React with the reactions below to choose.",
+            color = discord.Colour.blue()
+        )
+        embed.add_field(name = "1", value = "Help menu", inline = False)
+        embed.add_field(name = "2", value = "Play music", inline = False)
+        embed.add_field(name = "3", value = "still thinking", inline = False)
+        embed.add_field(name = "4", value = "still thinking", inline = False)
+        embed.add_field(name = "5", value = "still thinking", inline = False)
+        embed.set_footer(text = f"{default_footer} \n Sent at {today_date} , {current_time}", icon_url = default_footer_icon)
+        embed.set_author(name = f"{client.user}", icon_url = default_footer_icon)
+        sent_message = await message.channel.send(embed = embed)
+        help_message = sent_message
+        emojis = [":keycap_1:",":keycap_2:",":keycap_3:",":keycap_4:",":keycap_5:"]
+        for x in emojis:
+            emojib = x
+            await sent_message.add_reaction(emoji.emojize(emojib))
 
 
     await client.process_commands(message)
@@ -187,23 +222,32 @@ async def on_member_remove(member):
 commands
 '''
 
-@client.command(aliases = ["hlep"], help='Returns help menu')
+
+
+#▶️⏸⏭⏮        
+
+
+
+
+@client.command(aliases = ["hlep", "help"], help='Returns help menu')
 async def h(ctx):
+    t = time.localtime()
+    today = date.today()
+    today_date = today.strftime("%Y/%m/%d")
+    current_time = time.strftime("%H:%M:%S", t)
     
     helpmenu= discord.Embed(
-        title = "Click me to see list of commands",
-        description = "Help menu",
+        title = "Help menu",
+        description = "Click on this link to see list of commands",
         url = "https://hackmd.io/@Kawaii-kanataso/ry_w9QXVK",
         colour = discord.Color.blue()
     )
-    helpmenu.set_author(name = f"{client.user}")
-    helpmenu.set_thumbnail(url = 
-    "https://cdn.discordapp.com/attachments/672102728469577785/891721492671389696/20210710_223830.jpg")
+    helpmenu.set_author(name = f"{client.user}", icon_url = default_footer_icon)
     helpmenu.add_field(
         name = "If you need any help you can message me on Discord" , 
-        value = "Hoshiyomi#6942", 
+        value = f"{MyDiscordID}", 
         inline = True)
-    helpmenu.set_footer(text = "Bot Developed by Hoshiyomi#6942" ,icon_url= "https://cdn.discordapp.com/avatars/398444155132575756/77db70f07858b08a72896f248e2ffcaf.webp?size=4096")
+    helpmenu.set_footer(text = f"{default_footer} \n Sent at {today_date} , {current_time}", icon_url = default_footer_icon)
     await ctx.send(embed=helpmenu)
 
 @client.command(help = 'Returns the latency of the bot')
@@ -243,7 +287,7 @@ async def dice(ctx, ground :int, limit :int):
 @client.command(aliases = ["crd","crds"], help = "Returns the credits")
 async def credits(ctx):
     embed = discord.Embed(
-        title = "Bot coded by ImHoshiyomi#6942",
+        title = f"Bot coded by {MyDiscordID}",
         description = f"Version {version}",
         color = discord.Colour.blue()
     )
@@ -261,7 +305,7 @@ async def information(ctx):
     )
     info.set_thumbnail(url = 
     "https://cdn.discordapp.com/attachments/672102728469577785/891721492671389696/20210710_223830.jpg")
-    info.add_field(name = "Author", value = "Hoshiyomi#6942")
+    info.add_field(name = "Author", value = f"{MyDiscordID}")
     await ctx.send(embed=info)
 
 
@@ -280,28 +324,24 @@ async def changeprefix(ctx, prefix):
 @client.command(aliases = ["embed","em"], help = "test")
 async def displayembed(ctx):
     embed = discord.Embed(
-        title = "title",
-        description = "This is a DESC",
-        colour = discord.Colour.blue()
+        title = f"Welcome to our server, {ctx.message.author}!",
+        color = discord.Colour.blue()
     )
-    embed.set_footer(text = 'This is a footer')
-    embed.set_image(url = 'https://media.discordapp.net/attachments/860187581445439500/891252962733719562/92644823_p0.png?width=410&height=701')
-    embed.set_thumbnail(url = 'https://images-ext-2.discordapp.net/external/upKX3R0FBGs2uJ3fx5Gq43Fwbjo_L08acmFHsX7S_Is/https/pbs.twimg.com/media/FAHXajtUcAQ-p4m.jpg%3Alarge?width=953&height=702')
-    embed.set_author(name = 'Author name',icon_url = 'https://cdn.discordapp.com/attachments/860187581445439500/891037312937504809/image0.jpg')
-    embed.add_field(name = 'field name', value = 'field value', inline = False)
-    embed.add_field(name = 'field name', value = 'field value', inline = True)
-    embed.add_field(name = 'field name', value = 'field value', inline = True)
-
-    
+    embed.set_author(name = client.user, icon_url = default_footer_icon)
+    embed.add_field(name = "Looking for help?", value = "Type a!h to see list of commands!",inline = False)
+    embed.set_footer(text = default_footer, icon_url = default_footer_icon)
     await ctx.send(embed=embed)
     
 
 @client.command(help = "dont use it")
 async def say(ctx,*,sentence):
+    a = random.randint(1,5)
     await ctx.channel.purge(limit = 1)
-    await ctx.send(sentence)
-
-
+    message = await ctx.send(sentence)
+    if a == 4 or a == 3:                                  ##pleading face                 ##smiling face with hearts
+        emojis = ["\N{thinking face}","\N{crying face}","\U0001F97A","\N{flushed face}","\U0001F970"]
+        emoji = str(random.choices(emojis))
+        await message.add_reaction(emoji[2])
 
 '''
 Music
@@ -316,22 +356,25 @@ async def on_play(ctx, player):
 async def pause(ctx):
     user = ctx.message.author.id
     if await MusicManager.pause(ctx):
-        await ctx.send(f'Player paused by <@!{user}>')
+        message = await ctx.send(f'Player paused by <@!{user}>')
+        ##emoji = "\U00023f8" ##pause button
+        ##await message.add_reaction(emoji)
 
 @client.command(aliases = ["res"],help =  "Resumes the current song playing")
 async def resume(ctx):
     user = ctx.message.author.id
     if await MusicManager.resume(ctx):
-        await ctx.send(f'Player resumed by <@!{user}>')
+        message = await ctx.send(f'Player resumed by <@!{user}>')
+        ##emoji = "\u00025b6" ##play button
+        ##await message.add_reaction(emoji)
 
 
 @client.command(aliases = ["dc","disconnect"],help =  "Disconnects the bot from the voice channel")
 async def leave(ctx):
-    global joined
+    global voice_joined
     if await MusicManager.leave(ctx):
         await ctx.send("Left the Voice Channel")
-        joined = False
-
+        voice_joined = False
 
 @client.command(aliases = ['nowplaying'] , help = "Shows the song that is currently being played")
 async def np(ctx):
@@ -342,23 +385,57 @@ async def np(ctx):
                 break
             else:
                 i+=1
-        await ctx.send(f"Currently playing: \n {player}")
+        currently_playing = discord.Embed(
+            title = "Currently playing",
+            description = "",
+            color = discord.Colour.blue()
+        )
+        currently_playing.add_field(name = "Video title", value = f"{player}", inline = False)
+        currently_playing.set_image(url = queue_image_url[i-1])
+        t = time.localtime()
+        today = date.today()
+        today_date = today.strftime("%Y/%m/%d")
+        current_time = time.strftime("%H:%M:%S", t)
+
+        currently_playing.set_footer(text = f"{default_footer} \n Sent at {today_date} , {current_time}", icon_url = default_footer_icon)
+        message = await ctx.send(embed = currently_playing)
+        emojie = "\N{BLACK RIGHT-POINTING TRIANGLE}" ##play button
+        await message.add_reaction(emojie)
     else:
         await ctx.send("Not playing anything")
 
 @client.command(aliases = ['rm'] , help = 'Removes the song selected frome the queue')
 async def remove(ctx, index:int):
+    t = time.localtime()
+    today = date.today()
+    today_date = today.strftime("%Y/%m/%d")
+    current_time = time.strftime("%H:%M:%S", t)
+    user = ctx.message.author
     if await MusicManager.queue_remove(ctx, index):
+        
+        embed = discord.Embed(
+            title = f"Removed {queue[index].title}",
+            descrpition = f"Removed by <@!{user}>",
+            Color = discord.Colour.blue()
+        )
+        embed.set_image(url = queue_url[index].thumbnail_url())
+        embed.set_footer(text = f"{default_footer} \n Sent at {today_date} , {current_time}", icon_url = default_footer_icon)
         queue.remove(index)
         queue_url.remove(index)
         queueadd.remove(index)
-        await ctx.send(f"Removed {queue[index].title}")
+        message = await ctx.send(embed = embed)
+        emoji = "\N{PUT LITTER IN ITS PLACE SYMBOL}"
+        await message.add_reaction(emoji)
 
 @client.command(aliases = ["q","queue"] , help = 'Returns the queue')
 async def _queue(ctx):
     global queue_url
     global queueadd
     global queue
+    global queue_source
+    global queuemessages
+
+    
     if player := await MusicManager.now_playing(ctx):
         queueembed = discord.Embed(
             title = "Now playing queue:" , color = discord.Colour.blue()
@@ -393,27 +470,41 @@ async def _queue(ctx):
                     )
                     
             i += 1
-        
-        await ctx.send(embed = queueembed)
+        t = time.localtime()
+        today = date.today()
+        today_date = today.strftime("%Y/%m/%d")
+        current_time = time.strftime("%H:%M:%S", t)
+        queueembed.set_footer(text = f"{default_footer} \n Sent at {today_date} , {current_time}", icon_url = default_footer_icon)
+        queuemessages = await ctx.send(embed = queueembed)
+        emojis =  [":play_button:", ":pause_button:", ":last_track_button:",":next_track_button:"]
+        for i in emojis:
+            i = emoji.emojize(i)
+            await queuemessages.add_reaction(i)
     else:
-        await ctx.send("The queue is empty. Use the play command to add some songs to queue")
+        empty = await ctx.send("The queue is empty. Use the play command to add some songs to queue")
+        emojie = emoji.emojize(":cross_mark:")
+        await empty.add_reaction(emojie)
 
 @client.command(help = "Skips the current song playing, if any")
 async def skip(ctx):
     if await MusicManager.skip(ctx):
-        await ctx.send("Skipped!")
+        message = await ctx.send("Skipped!")
+        emoji = "\N{black right-pointing double triangle}"
+        await message.add_reaction(emoji)
     else:
         await ctx.send("This is the end of the queue!")
+        await ctx.voice_client.disconnet()
     
-
-@client.command(help = "Joins the voice channel that you're currently in")
+@client.command(aliases = ["comein, come"],help = "Joins the voice channel that you're currently in")
 async def join(ctx):
     user = ctx.message.author
-    global joined
+    global voice_joined
     try:
-        await user.voice.channel.connect()
-        await ctx.send("Joined Voice Channel")
-        joined = True
+        await user.voice.channel.connect(timeout = 1000000)
+        message = await ctx.send("Joined Voice Channel")
+        emoji = "\N{WAVING HAND SIGN}"
+        await message.add_reaction(emoji)
+        voice_joined = True
     except:
         await ctx.send("An error occured. Please try again later")
 
@@ -422,50 +513,65 @@ async def play(ctx, *, url: str):
     global queue
     global queue_url
     global queueadd
-    global joined
+    global queue_source
+    global voice_joined
     global nowplaying
+    global playmessages
 
     user = ctx.message.author
 
-
     if not ctx.message.author.voice:
         await ctx.send("You're not connected to a voice channel")
-        joined = False
+        voice_joined = False
         return
-    elif not joined:
+    elif not voice_joined:
         channel = user.voice.channel
         await channel.connect()    
         await ctx.send("Joined Voice Channel")
         await ctx.guild.change_voice_state(channel = ctx.message.author.voice.channel , self_deaf=True)
-        joined = True
+        voice_joined = True
+        Loading = await ctx.send("Loading song.......This could take a few minute")
+    async with ctx.channel.typing():
+        player = await MusicManager.create_player(url, requester = user)
+        await MusicManager.queue_add(players = player, ctx = ctx) 
+        player2 = await YTDLSource.from_url(url, loop = client.loop)
 
-    player = await MusicManager.create_player(url, requester=user)
-    await MusicManager.queue_add(players = player, ctx = ctx)
-    player2 = await YTDLSource.from_url(url, loop=client.loop)
-    yt = pytube.YouTube(url)
-    queue.insert(len(queue),player2)
-    queue_url.insert(len(queue_url) , url)
-    queueadd.insert(len(queueadd), user.id)
-    await MusicManager.play(ctx)
+        await MusicManager.play(ctx)
 
-    '''
-    embed
-    '''
-
-    nowplayingembed = discord.Embed(
-                title = f"{player2.title}",
-                description = "**Added to queue** ",
-                url = f'{url}',
-                colour = discord.Colour.blue()
-                )
-    nowplayingembed.set_image(url = f'{yt.thumbnail_url}')
-    nowplayingembed.add_field(name = f"Requested by", value = f'{user.mention}')
-    #nowplayingembed.add_field(name = f"Video:", value = '')
-    #await ctx.send(f'**Now Playing:**  {player2.title}, added by <@!{user}>')
-            
-    await ctx.send(embed = nowplayingembed)
-
-
+        
+        '''
+        embed
+        '''
+        yt = pytube.YouTube(url)
+        
+        nowplayingembed = discord.Embed(
+                    title = f"{player2.title}",
+                    description = "**Added to queue** ",
+                    url = f'{url}',
+                    colour = discord.Colour.blue()
+                    )
+        nowplayingembed.set_thumbnail(url = f'{yt.thumbnail_url}')
+        t = time.localtime()
+        today = date.today()
+        today_date = today.strftime("%Y/%m/%d")
+        current_time = time.strftime("%H:%M:%S", t)
+        nowplayingembed.add_field(name = f"Requested by", value = f'{user.mention}')
+        nowplayingembed.add_field(name = "Video source", value = f"{yt.channel_url}")
+        nowplayingembed.set_footer(text = f"{default_footer} \n Sent at {today_date} , {current_time}", icon_url = default_footer_icon)
+        #nowplayingembed.add_field(name = f"Video:", value = '')
+        #await ctx.send(f'**Now Playing:**  {player2.title}, added by <@!{user}>')
+        
+        playmessages = await ctx.send(embed = nowplayingembed)
+        emojis = [":play_button:", ":pause_button:", ":last_track_button:",":next_track_button:"]
+        for i in emojis:
+            i = emoji.emojize(i)
+            await playmessages.add_reaction(i)
+        queue.insert(len(queue),player2)
+        queue_url.insert(len(queue_url) , url)
+        queueadd.insert(len(queueadd), user.id)
+        queue_source.insert(len(queue_source), yt.channel_url)
+        queue_image_url.insert(len(queue_image_url), yt.thumbnail_url)
+    
 @client.command(aliases = ['vol'] , help = 'Controls the volume of the bot')
 async def volume(ctx, volume: int):
     if await MusicManager.volume(ctx, volume):
@@ -476,24 +582,37 @@ async def loop(ctx):
     global loop_state
     loop_state = await MusicManager.loop(ctx)
     if loop_state:
-        await ctx.send(f"Now looping the queue")
+        message = await ctx.send(f"Now looping the queue")
+        emoji = "\U0001F501" ##repeat button
+        await message.add_reaction(emoji)
     else:
-        await ctx.send(f"Looping was toggled off")
+        message = await ctx.send(f"Looping was toggled off")
+        emoji = "\N{cross mark}"
+        await message.add_reaction(emoji)
+        
 
-@client.command(aliases = ["stp"], help = "Stops the current player and disconnects")
+@client.command(aliases = ["stp", "shutup"], help = "Stops the current player and disconnects")
 async def stop(ctx):
-    global joined
+    global voice_joined
     global queue
     global queue_url
     global queueadd
+
     queue.clear()
     queueadd.clear()
     queue_url.clear()
+
     user = ctx.message.author
     ctx.voice_client.pause()
-    await ctx.send(f"Player has been stopped by <@!{user.id}>")
+
+    message = await ctx.send(f"Player has been stopped by <@!{user.id}>")
+    ##emoji = "\U000123F9" ##stop button
+    ##await message.add_reaction(emoji)
     await ctx.voice_client.disconnect()
-    joined = False
+    message = await ctx.send("Disconnected")
+    ##emoji = "\U0001f44b"
+    ##await message.add_reaction(emoji)
+    voice_joined = False
 
 
 '''
@@ -538,7 +657,26 @@ async def reload(ctx, extension):
     except:
         await ctx.send(f"{extension} doesn't exsit")
 
-
+@client.command(aliases = ["extlist"], help = "<ADMIN only command> Lists the extensions available")
+@commands.has_permissions(administrator = True)
+async def extensionlist(ctx):
+    number = 0
+    listembed = discord.Embed(
+        title = "List of available extensions",
+        description = "Returns the list",
+        color = discord.Colour.blue()
+    )
+    t = time.localtime()
+    today = date.today()
+    today_date = today.strftime("%Y/%m/%d")
+    current_time = time.strftime("%H:%M:%S", t)
+    for filename in os.listdir('./cogs'):
+        number += 1
+        if filename.endswith('.py'):
+            listembed.add_field(name = f"{number}", value = f"{filename[:-3]}", inline = False)
+    listembed.set_footer(text = f"{default_footer} \n Sent at {today_date} , {current_time}", icon_url = default_footer_icon)
+    await ctx.send(embed = listembed)
+        
 
 
 '''
@@ -550,19 +688,22 @@ I would be very much appreciated. He will start giving you support. Thank you to
 '''
 
 
-
-
-
 @dice.error
 async def dice_error(ctx, error):
     global default_footer
     global default_footer_icon
+    t = time.localtime()
+    today = date.today()
+    today_date = today.strftime("%Y/%m/%d")
+    current_time = time.strftime("%H:%M:%S", t)
     if isinstance(error, commands.MissingRequiredArgument):
         embed = discord.Embed(
-            title = "ERROR!",description = "This is an error message"
+            title = "ERROR!"
+            ,description = "This is an error message"
+            ,colour = discord.Colour.blue()
         )
         embed.add_field(name = "Appropraite usage:" , value = f"{pre}dice <value 1> <value 2>")
-        embed.set_footer(text = default_footer, icon_url = default_footer_icon)
+        embed.set_footer(text = f"{default_footer} \n Sent at {today_date} , {current_time}", icon_url = default_footer_icon)
         await ctx.send(embed = embed)
 
 @load.error
@@ -587,4 +728,4 @@ for filename in os.listdir('./cogs'):
 
 
 
-client.run('')
+client.run('ODY1NDY1MDIyMjY0Mzc3Mzc2.YPEZHA.9D33y57IiPfz2CVPXuxwJFzxKKI')
