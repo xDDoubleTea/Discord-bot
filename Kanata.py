@@ -728,4 +728,4 @@ for filename in os.listdir('./cogs'):
 
 
 
-client.run('ODY1NDY1MDIyMjY0Mzc3Mzc2.YPEZHA.9D33y57IiPfz2CVPXuxwJFzxKKI')
+client.run('')
