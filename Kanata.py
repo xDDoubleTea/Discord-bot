@@ -380,7 +380,7 @@ async def np(ctx):
     if player := await MusicManager.now_playing(ctx):
         i = 0
         for x in queue:
-            if x.title == player:
+            if x == player:
                 break
             else:
                 i+=1
@@ -442,7 +442,7 @@ async def _queue(ctx):
         queuenow = i = find = 0
 
         for j in queue:
-            if j.title == player.title:
+            if j == player.title:
                 queuenow = find
             find+=1
         
@@ -455,15 +455,15 @@ async def _queue(ctx):
             queueadd.remove(remove)
 
         for x in queue:
-            if x.title == player.title:
+            if x == player.title:
                 queueembed.add_field(
-                        name = f"(Now){x.title}", 
+                        name = f"(Now){x}", 
                         value = f"added by <@!{queueadd[i]}>",
                         inline = False
                     )
             else:
                 queueembed.add_field(
-                        name = f"<{(i+1)-queuenow}> {x.title}", 
+                        name = f"<{(i+1)-queuenow}> {x}", 
                         value = f"added by <@!{queueadd[i]}>",
                         inline = False
                     )
@@ -499,7 +499,7 @@ async def join(ctx):
     user = ctx.message.author
     global voice_joined
     try:
-        await user.voice.channel.connect(timeout = 1000000)
+        await user.voice.channel.connect(timeout = 10, reconnect = True)
         message = await ctx.send("Joined Voice Channel")
         emoji = "\N{WAVING HAND SIGN}"
         await message.add_reaction(emoji)
@@ -525,26 +525,22 @@ async def play(ctx, *, url: str):
         return
     elif not voice_joined:
         channel = user.voice.channel
-        await channel.connect()    
+        await channel.connect(timeout = 601234, reconnect = True)    
         await ctx.send("Joined Voice Channel")
         await ctx.guild.change_voice_state(channel = ctx.message.author.voice.channel , self_deaf=True)
         voice_joined = True
         Loading = await ctx.send("Loading song.......This could take a few minute")
     async with ctx.channel.typing():
         player = await MusicManager.create_player(url, requester = user)
-        await MusicManager.queue_add(players = player, ctx = ctx) 
-        player2 = await YTDLSource.from_url(url, loop = client.loop)
-
+        await MusicManager.queue_add(players = player, ctx = ctx)
         await MusicManager.play(ctx)
-
-        
         '''
         embed
         '''
         yt = pytube.YouTube(url)
         
         nowplayingembed = discord.Embed(
-                    title = f"{player2.title}",
+                    title = f"{yt.title}",
                     description = "**Added to queue** ",
                     url = f'{url}',
                     colour = discord.Colour.blue()
@@ -565,7 +561,7 @@ async def play(ctx, *, url: str):
         for i in emojis:
             i = emoji.emojize(i)
             await playmessages.add_reaction(i)
-        queue.insert(len(queue),player2)
+        queue.insert(len(queue),yt)
         queue_url.insert(len(queue_url) , url)
         queueadd.insert(len(queueadd), user.id)
         queue_source.insert(len(queue_source), yt.channel_url)
@@ -727,4 +723,3 @@ for filename in os.listdir('./cogs'):
 
 
 
-client.run('')
