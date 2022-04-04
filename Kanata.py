@@ -26,8 +26,7 @@ Member = 489568072483471372
 
 Pi = math.pi
 
-client_id = 865465022264377376
-client_secret = 'QWC5PDZyxNgWoE_A0p-DsLgRbqqNh-sf'
+
 version = 1.0
 
 
