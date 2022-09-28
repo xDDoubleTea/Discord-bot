@@ -4,11 +4,7 @@ from datetime import datetime, timedelta, date
 from pytz import timezone
 import pytz
 import time
-
-version = 1.0
-MyDiscordID = "星詠み#6942"
-default_footer = f"Developed by {MyDiscordID} version:{version}"
-default_footer_icon = "https://cdn.discordapp.com/avatars/398444155132575756/77db70f07858b08a72896f248e2ffcaf.webp?size=4096"
+from config.bot_info import *
 
 
 UTC = pytz.utc
@@ -34,9 +30,9 @@ class Time(commands.Cog):
             value = f"{datetime_utc.strftime('%Y:%m:%d %H:%M:%S %Z %z')}",
             inline = False
         )
-        embed.set_author(name = f"{self.client.user}", icon_url = default_footer_icon)
-        embed.set_footer(text = f"{default_footer} \n Sent at {today_date} , {current_time}", icon_url = default_footer_icon)
+        embed.set_author(name = f"{self.client.user}", icon_url = self.client.get_user(My_user_id).avatar.url)
+        embed.set_footer(text = f"{default_footer} \n Sent at {today_date} , {current_time}", icon_url = self.client.get_user(My_user_id).avatar.url)
         await ctx.send(embed = embed)
 
-def setup(client):
-    client.add_cog(Time(client))
+async def setup(client):
+    await client.add_cog(Time(client))

@@ -1,0 +1,436 @@
+{%hackmd @RintarouTW/DarkTheme %}
+# Mathematics高一上
+
+## 數
+
+$\mathbb{N}\subset\mathbb{Z}\subset\mathbb{Q}\subset\mathbb{R}\subset\mathbb{C}$
+
+自然數:
+
+自然數的定義:皮亞諾數學五大公設
+1. $1\in N$
+2. $n\in N,存在 m\in N 滿足 m=n^+$
+3. $1\not =n^+,\forall n\in N$
+4. $k\not=n\Leftrightarrow k^+ \not =n^+$
+5. $let\ S\subset N, 
+    \\(a)1\in S\\(b)if\ k\in S\ then\ k+1\in S,\to S=N$
+$pf:
+\\let\ S\subset N,\ \And \ S+S'=N,S\cap S'=\emptyset,S'\not =\emptyset
+\\\because S'\subset N\ \therefore 有最小元素\ a+1
+\\\therefore a\in S
+\\but\because S\ 滿足兩條件((a)1\in S\ (b)if\ k\in S\ then\ k+1\in S)
+\\\therefore if\ a\in S\to a+1\in S與原設矛盾(S'中沒有最小元素)
+\\\therefore S'=\varnothing, 即S=N得證$
+(數學歸納法原理)
+
+自然數與自然數相加還是自然數
+自然數與自然數相乘還是自然數
+
+整數:
+$0$是什麼?
+$0$：虛無
+虛無是什麼?什麼都沒有
+什麼都沒有是什麼概念?
+0與無窮
+
+負號的意義：與正數共扼，相反的數
+
+有理數：
+「理」，比例也，整數相除可得。
+
+
+
+## 分點公式
+
+已知數線上兩點$A(x_1),B(x_2)$
+若在$\overline{AB}$上取一點$P(x)$
+且$\overline{AP}:\overline{BP}=n:m$
+
+則$\to x=\dfrac{(mx_1)+(nx_2)}{m+n}$(內分點公式)
+
+若在$\overleftrightarrow{AB}$上取一點$P'(x')$
+且$\overline{AP}:\overline{BP}=n:m$且$P'(x')\notin \overline{AB}$
+則$\to x=\dfrac{((-m)x_1)+(nx_2)}{(-m)+n}\\
+or\ x=\dfrac{(mx_1)+((-n)x_2)}{m+(-n)}$(外分點公式)
+
+推廣：向量分點公式
+
+$利用向量
+\\設ABP三點共線,且存在線外一點O
+\\\to\vec{AP}=t\vec{PB}    \quad(\overline{AP}:\overline{PB}=1:t)
+\\\to\vec{OP}-\vec{OA}=t(\vec{OB}-\vec{OP})
+\\\to(t+1)\vec{OP}=t\vec{OB}+\vec{OA}
+\\\to\vec{OP}=\cfrac{t}{t+1}\vec{OB}+\cfrac{1}{t+1}\vec{OA}
+\\\to若令O為坐標系原點,則可得各點座標$
+
+
+
+> 交叉相乘$\div$倍數
+> $係數和為1$
+
+## 算幾不等式$(A\ge{G})$
+> $<a_k> = 你要做算幾的數"們"$
+
+$\forall k\in\mathbb{N}\ ,\ a_k>0$
+$\to\ \dfrac{\displaystyle\sum^{k=n}_{k=1}a_k}{n}\ge\sqrt[n]{a_1a_2a_3...a_n}=(\displaystyle\prod^{k=n}_{k=1}a_k)^{\frac{1}{n}}
+\\\to 簡稱(A^{k=n}_{k=1}\ge{G}^{k=n}_{k=1})$
+
+> (算數平均)$\ge$(n次根號乘積)
+
+證明方式:證明完2個數的算幾後利用數學歸納法推廣到n次
+
+------------------
+
+> 簡單版：
+
+$\ let\ a,b\in\mathbb{R^+}$
+
+$\to\dfrac{a+b}{2}\ge\sqrt{ab}$
+
+> 如何使用算幾?
+> 先判斷有幾個數做算幾,由乘積決定
+> 乘積幾方,就分幾份
+> 何時使用算幾?
+> 和求乘積之最大
+> 乘積求和之最小,等號成立時等分
+
+$pf:$
+法一：減減看
+$want\ :\dfrac{a+b}{2}\ge\sqrt{ab}$
+$即\dfrac{a+b}{2}-\sqrt{ab}\ge0$
+
+$\dfrac{a+b}{2}-\sqrt{ab}
+\\=\dfrac{1}{2}(a+b-2\sqrt{ab})
+\\=\dfrac{1}{2}(\sqrt{a^2}+\sqrt{b^2}-2\sqrt{ab})
+\\=\dfrac{1}{2}(\sqrt{a}+\sqrt{b})^2$
+$\because a,b為正實數
+\\\to\dfrac{1}{2}(\sqrt{a}+\sqrt{b})^2\ge0$
+$\to \dfrac{a+b}{2}\ge\sqrt{ab}$
+法二：畫圖
+![](https://i.imgur.com/idXu7og.png)
+$Think:why\ \overline{CD}=\sqrt{ab}\ ?$
+$\to連接\overline{AD}\And\overline{BD}
+\\利用相似形可以得到\overline{AC}\cdot\overline{BC}=\overline{CD}^2
+\\\to ab=\overline{CD}^2\to\overline{CD}=\sqrt{ab}$
+
+### 應用:算幾開平方法
+
+
+
+
+## 根與係數
+$已知f(x)=ax^2+bx+c, a\not=0, a,b,c\in R
+\\已知兩根\alpha,\beta
+\\則\to\begin{cases}\alpha+\beta=\dfrac{-b}{a}
+\\\alpha\beta=\dfrac{c}{a}\end{cases}$
+$證明就是用公式解x=\dfrac{-b\pm\sqrt{b^2-4ac}}{2a}下去代,令\alpha=\dfrac{-b+\sqrt{b^2-4ac}}{2a},\beta=\dfrac{-b-\sqrt{b^2-4ac}}{2a}$
+$或是利用因式分解和比較係數f(x)=ax^2+bx+c=a(x-\alpha)(x-\beta)=0\quad(\alpha,\beta為方程式的根)
+\\\to比較係數得得證$
+$推廣:三次式的根與係數也可以利用因式分解與比較係數得到
+\\已知f(x)=ax^3+bx^2+cx+d=a(x-\alpha)(x-\beta)(x-\gamma)=0
+\\\begin{cases}\alpha+\beta+\gamma=\cfrac{-b}{a}\\
+\alpha\beta+\alpha\gamma+\beta\gamma=\cfrac{c}{a}\\
+\alpha\beta\gamma=\cfrac{-d}{a}\end{cases}$
+
+
+
+## 雙重根號化簡
+雙重根號：就是根號中有根號
+$例：\sqrt{2+\sqrt{3}}$
+$化簡雙重根號的公式$
+$\sqrt{a\pm\sqrt{b}}=\cfrac{\sqrt{a+\sqrt{a^2-b}}\pm\sqrt{a-\sqrt{a^2-b}}}{\sqrt{2}}$
+觀察：因為$a^2-b$在第二層根號內,如果$a^2-b$不是完全平方數的話那就無法繼續化簡
+$pf:$
+> $思考:$
+$想要得到\sqrt{a\pm\sqrt{b}}的解就必須得到完全平方式
+\\如何得到完全平方？利用乘法公式
+\\即利用\sqrt{(\sqrt{x}\pm\sqrt{y})^2}$
+
+$令：x+y=a,xy=\cfrac{b}{4}(x,y\in \mathbb{R}-\{0\},x>y,a,b\in\mathbb{R^+})$
+$(x+y)^2-4xy=(x-y)^2=a^2-b$
+$\begin{cases}x+y=a\\x-y=\pm\sqrt{a^2-b}\end{cases}$
+$x=\cfrac{a\pm\sqrt{a^2-b}}{2}$
+$y=a-\cfrac{a\pm\sqrt{a^2-b}}{2}=\cfrac{2a-(a\pm\sqrt{a^2-b})}{2}=\cfrac{a\mp\sqrt{a^2-b}}{2}$
+$\because x>y 
+\\ \therefore \begin{cases}x=\cfrac{a+\sqrt{a^2-b}}{2}\\y=\cfrac{a-\sqrt{a^2-b}}{2}\end{cases}$
+$\to \sqrt{(\sqrt{x}\pm\sqrt{y})^2}=\sqrt{x}\pm\sqrt{y}=\cfrac{\sqrt{{a+\sqrt{a^2-b}}}\pm \sqrt{a-\sqrt{a^2-b}}}{\sqrt{2}}得證$
+
+## 直線方程式的表示方法
+斜率：$\dfrac{\Delta y}{\Delta x}$
+> 白話文: $x+1,y+多少$
+1. 點斜式：$(y-y_0) = m(x-x_0)$
+$考慮平面上一點A(x_0,y_0),一直線L過A且斜率為m
+\\存在一動點P(x,y)\in L
+\\\to\cfrac{y-y_0}{x-x_0}=m
+\\\to L:(y-y_0)=m(x-x_0)$
+> 使用時機：已知一點可假設點斜式
+
+3. 斜截式：$y = mx + k$
+$直線L若非鉛直線,則必與y軸有一交點,交點座標即為截距k
+\\\to若交點座標為B(0,b),斜率m
+\\\to (y-0)=m(x-b)
+\\\to y=mx-mb
+\\\to若令-mb=k
+\\則可得截距式$
+> 使用時機：已知斜率m
+4. 截距式：$\dfrac{x}{a} + \dfrac{y}{b} = 1\ ,其中a為x截距,b為y截距$
+> 使用時機：已知截距且與座標軸相交且相圍時
+> （a和b都要是有意義的）
+5. 一般式：$ax + by +c = 0$
+$斜率m=\tan{\theta}=\cfrac{-a}{b},y截距k=\cfrac{-c}{b}$
+$其中\theta為L與+x軸的夾角$
+> 使用時機：判讀資料用
+5. 參數式：$P:\begin{cases}x = x_0 -bt\\y = y_0 +at \end{cases}\ t\in\mathbb{R}$
+> 使用時機：已知一直線上一點$(x_0 , y_0)$求直線上動點P與其他點之關係時使用
+> 簡單來說就是把線變成點在看
+
+## 距離，投影，對稱公式
+$已知\ L:ax+by+c=0 \ \And \ A(x_0 ,y_0) \notin L$
+(1)A在L之投影點$B:\begin{cases}x=x_0-\dfrac{a(ax_0 + by_0 + c)}{a^2 + b^2}
+                             \\y=y_0-\dfrac{b(ax_0 + by_0 + c)}{a^2 + b^2}\end{cases}$
+
+(2)A關於L之對稱點$A':\begin{cases}x=x_0-\dfrac{2a(ax_0 + by_0 + c)}{a^2 + b^2}
+                              \\y=y_0-\dfrac{2b(ax_0 + by_0 + c)}{a^2 + b^2}\end{cases}$
+
+(3)$d(A,L)=\overline{AB}=\dfrac{|ax_0+by_0+c|}{\sqrt{a^2+b^2}}$
+> 根號係數平方和分之絕對值點代入
+
+(4)
+$已知2平行線L_1:ax+by+c_1=0,L_2:ax+by+c_2=0$
+$\to d(L_1,L_2)=\dfrac{|c_1-c_2|}{\sqrt{a^2+b^2}}$
+
+## 克拉馬公式(二元一次版本)
+$P(x,y)\begin{cases}L_1:a_1x+b_1y=c_1\\ L_2:a_2x+b_2y=c_2\end{cases}$
+$\to
+P(\cfrac
+{
+\begin{vmatrix}
+c_1 & b_1 \\
+c_2 & b_2
+\end{vmatrix}
+}
+{
+\begin{vmatrix}
+a_1 & b_1  \\
+a_2 & b_2
+\end{vmatrix}
+},
+\cfrac
+{
+\begin{vmatrix}
+c_1 & a_1 \\
+c_2 & a_2
+\end{vmatrix}
+}
+{
+\begin{vmatrix}
+a_1 & b_1  \\
+a_2 & b_2
+\end{vmatrix}
+})$
+
+
+## 平面座標上的不共線三點所圍成三角形的面積公式
+$A(x_1,y_1),B(x_2,y_2),C(x_3,y_3)且\dfrac{y_1-y_2}{x_1-x_2}\not=\dfrac{y_2-y_3}{x_2-x_3}(不共線)$
+$\to\ Area\ of\ \Delta ABC=\dfrac{1}{2}
+|\begin{vmatrix}x_1 & y_1 \\ x_2 & y_2 \\ x_3 & y_3\\ x_1 & y_1 \end{vmatrix}|$
+> 有了面積就可以求出各種長度
+> 與三角形6個面積公式相等
+
+$\Delta=\dfrac{1}{2}\times底\times高=\begin{cases}(1)\dfrac{1}{2}ab\sin{C}
+\\(2)\Delta=\dfrac{abc}{4R}
+\\(3)\Delta=\dfrac{a^2\sin{B}\sin{C}}{2\sin{(B+C)}}
+\\(4)\Delta=2R^2\sin{A}\sin{B}\sin{C}
+\\(5)\Delta=\sqrt{s(s-a)(s-b)(s-c)}\quad \quad s=\dfrac{a+b+c}{2}
+\\(6)\Delta=rs
+\end{cases}$
+
+
+## 圓方程式
+$一圓圓心O(h,k), 半徑r$
+則
+### 標準式:
+
+$動點P(x,y)到某定點K(h,k)之距離d(P,K)=r,r\ge0
+\\\to\sqrt{(x-h)^2+(y-k)^2}=r
+\\\to(x-h)^2+(y-k)^2=r^2$
+> 使用時機：有圓心或半徑
+### 一般式:即為標準式的展開式
+$(x-h)^2+(y-k)^2=r^2
+\\展開得\to x^2+y^2-2hx-2ky+h^2+k^2-r^2=0
+\\記成:x^2+y^2+dx+ey+f=0
+\\比較係數得到-2h=d, -2k=e,f=h^2+k^2-r^2
+\\將x^2+y^2+dx+ey+f=0配方
+\\得\to(x+\dfrac{d}{2})^2+(y+\dfrac{e}{2})^2=\dfrac{d^2+e^2-4f}{4}
+\\透過觀察\to O(h,k)=(\dfrac{-d}{2},\dfrac{-e}{2})
+\\r^2=\dfrac{d^2+e^2-4f}{4}即r=\dfrac{\sqrt{{d^2+e^2-4f}}}{2}
+\\\Delta = d^2 + e^2-4f\to
+\\ 1.\ if\ d^2+e^2-4f>0 \to表一圓
+\\ 2.\ if\ d^2+e^2-4f=0 \to表一點(r=0)
+\\ 3.\ if\ d^2+e^2-4f<0 \to表一虛圓:\emptyset(r\in\mathrm{C})$
+
+> 使用時機：判斷資料用
+> 注意：若為1圓：$x^2$項係數和$y^2$項係數必相等
+
+
+### 直徑圓
+
+$已知2點 :\ A(x_1,y_1),B(x_2,y_2)$
+且圓$C$以$\overline{AB}$為直徑
+圓C方程式為
+$\to
+\\(x-x_1)(x-x_2) + (y-y_1)(y-y_2)=0$
+
+> 使用時機：一圓以兩點為直徑則可假設直徑圓
+
+## 圓外一點對圓作切線
+
+首先判斷點是不是在圓外
+
+切線方程式求法
+### 設：點斜式
+### 得：$(y-y_0) = m(x-x_0)$並展開
+### 代：點線距離公式（圓心與切線之距離）
+### 解
+
+限制級：$m切公式$
+
+---
+
+假設一圓$C:(x-h)^2 + (y-k)^2 = r^2$
+今過一點$P(x_0,y_0)$對圓$C$做切線
+利用以上四步驟
+$(y-y_0) = m(x-x_0)$
+展開得
+$L:mx-y-mx_0+y_0=0$
+代入點線距離公式
+圓心$O(h,k)$
+可得
+$\to d(O,L)=\dfrac{|mh-k-mx_0+y_0|}{\sqrt{m^2+(-1)^2}}=r$
+$r\sqrt{m^2+1}=|(y_0-k)-m(x_0-h)|$
+$\to 
+\\\pm r\sqrt{m^2+1}=(y_0-k)-m(x_0-h)$
+觀察：
+$\because P\in L\to 此式滿足(y-k)-m(x-h)=r\sqrt{m^2+1}$
+即可得切線方程式:$(y-k)=m(x-h)\pm r\sqrt{m^2+1}$
+
+---
+
+限制級中的限制級：利用三角導$m切公式$
+
+假設一圓$C:x^2 + y^2 = r^2$(圓心在原點)$r\ge0$
+今過一點$P(x_0,y_0)$對圓$C$做切線
+假設切線方程式$L:y=mx+b$
+假設切線與$x$軸正向的夾角=$\theta$
+![](https://i.imgur.com/zGPMPcc.png)
+
+則$m=\tan{\theta}$
+$b=r\sec{\theta}$
+則
+$b^2=r^2\sec^2{\theta}=r^2(1+\tan^2{\theta})=r^2(m^2+1)\quad 註：(\tan^2{\theta}+1=\sec^2{\theta})
+\\\to b=\pm r\sqrt{m^2+1}$
+則可得
+$y=mx\pm r\sqrt{m^2+1}$
+推廣：若圓心在$O(h,k)$則$(y-k)=m(x-h)\pm r\sqrt{m^2+1}(即f(x)函數平移)$
+
+---
+
+$隱微分:
+設一圓C:(x-h)^2+(y-k)^2=r^2
+\\經過隱微分後得:2(x-h)dx+2(y-k)dy=0
+\\(x-h)dx=-(y-k)dy
+\\\cfrac{dy}{dx}=\cfrac{-(x-h)}{(y-k)}=切線斜率$
+
+$若切點P(x_0,y_0),則過P之切線斜率為m=\cfrac{-(x_0-h)}{(y_0-k)}
+\\1.利用隱微分
+\\2.利用斜率
+\\2.pf:
+\\P(x_0,y_0) ,C(h,k),切線L之斜率m
+\\\because\overline{PC}垂直於切線\implies{L_{PC}斜率m_{PC}\times{m}=-1}
+\\又m_{PC}=\cfrac{y_0-k}{x_0-k}
+\\\therefore m=\cfrac{-(x_0-h)}{(y_0-k)}$
+
+切線長求法
+
+$P(x_0,y_0)\ 對圓C:(x-h)^2 + (y-k)^2 = r^2作切線
+\\且\overline{OP}>r
+\\則\to
+\\過P(x_0,y_0)與圓上一點Q且d(O,L)=r之直線L為圓C之切線
+\\切線段長\overline{PQ}=\sqrt{\overline{OP}^2-r^2}=\sqrt{P點代入圓方程式}$
+
+## 多項式函數
+
+函數是什麼？$\to$一種對應關係
+多項式的定義？
+$已知f(x)=a_nx^n+a_{n-1}x^{n-1}+...+a_2x^2+a_1x^1+a_0,\quad a_i\in\mathbb{R}$
+$若n\in N\cup{\{0\}}$
+$則f(x)為多項式$
+係數合：
+(1)$f(1)=a_0+a_1+a_2+...a_n$
+(2)$f(-1)=a_0-a_1+a_2-a_3+...\pm a_n$
+(3)偶次係數合$\dfrac{f(1)+f(-1)}{2}=a_0+a_2+a_4+...a_n,n=2k,k\in N\cup{\{0\}}$
+(4)奇次係數合$\dfrac{f(1)-f(-1)}{2}=a_1+a_3+a_5+...a_n,n=2k+1,k\in N\cup{\{0\}}$
+
+$pf:觀察
+\\偶次奇數合f(1)+f(-1)=a_0+a_1+a_2+...a_n+a_0-a_1+a_2-a_3+...+a_n=2a_0+2a_2+...+2a_n
+\\所以最後要\div{2}
+\\奇次係數合同理，觀察就好$
+若次數相同，對應項係數相同：
+則兩多項式相等
+例(亂出的)
+$\\f(x)=x^2+4x+3
+\\g(x)=x^2+3x+7
+\\if\ f(x)=g(x+1)
+\\x=?
+\\Sol:
+\\思考：f(x)=g(x+1)代表的意義?\to 函數值相等
+\\when相等？\to方程式即聯立式，畫圖找交點
+\\g(x+1)=(x+1)^2+3(x+1)+7=x^2+5x+11
+\\\to\begin{cases}f(x)=x^2+4x+3\\g(x+1)=x^2+5x+11\end{cases}
+\\g(x+1)-f(x)=x+8\to when\ x=-8時g(x+1)-f(x)=0
+\\Ans\ x=-8$
+
+方程式的根：
+what is 根？
+$\to$方程式的解
+$\to$**圖形與y=0的交點**
+看到根：
+想到\begin{cases}1.根與係數\\2.代入為0\\3.存在因式\end{cases}
+>1.適用於二次式
+>2.根代入後等號成立$\because交點座標在x軸上$
+>3.因式分解後$a(x-b)(x-c)(x-d).....=y=f(x)=0$所以代入即0，可將題目給的根提出並假設$y=f(x)=(x-\alpha)(x-\beta)(x-...)(...)$
+>何時使用？
+>1.看到乘積,和的關係(還可以連結到算幾)
+>2.需要解方程式時
+>3.需要因式分解時
+
+### 餘式定理
+$f(x)$為多項式
+求$f(a)=?$
+可將$f(x)$化成$(x-a)Q(x)+R$
+$\therefore f(a)=(a-a)(Q(a))+R=R$
+$\to$餘式即為值代入
+
+$若f(x)為一實係數多項式,且f(x)=(x-1)q(x)+r(x)$
+1. $2f(x)=?$
+2. $x(f(x))=?$
+3. $(x-1)(f(x))=?$
+4. $(2x-2)q(x)+r(x)=af(x),a=?$
+
+
+---
+例(亂出的)
+$let:f(x)=252(x+3)^3-334(x+3)^2+73(x+3)+15
+\\if:g(x+6)=f(x)
+\\g(f(x))除以(x+2)的餘式為何？$
+
+$Sol:
+\\令t=x+6\to x=t-6
+\\則g(t)=f(t-6)\to g(x)=f(x-6)
+\\餘式即為值代入\to x=-2代入g(f(-2))=g(6)
+\\又g(6)=f(0)
+\\g(f(x))除以(x+2)的餘式R(x)=15$
+
+
+不等式：畫圖比高低
+先判別幾次，恆正消去，再畫圖，奇數次方項穿越x軸,偶數次方項重根
