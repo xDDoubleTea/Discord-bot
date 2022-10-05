@@ -1,4 +1,4 @@
-{%hackmd @RintarouTW/DarkTheme %}
+
 # Python : Making a Discord Bot
 ## **What** is Discord
 Discord is a social media. Just like Facebook , Line, Instagram...etc, the main purpose of using these apps is to keep in contact with others. But how is Discord different from others?
